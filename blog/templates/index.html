@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %}
+    个人博客
+{% endblock %}
+
+{% block main %}
+    <div class='row' style="margin: auto;width: 95%; border: 1px solid red;">
+        {% include 'left.html' %}
+        {% include 'right.html' %}
+    </div>
+{% endblock %}

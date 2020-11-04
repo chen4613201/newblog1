@@ -1,0 +1,25 @@
+
+
+<div class="col-4 ">
+    <div>
+        <span>文章分类</span>
+        <ul>
+            {% regroup contents.articles by catagory.id as group_articles %}
+            {% for g in group_articles %}
+                <li><a href="#">{{ g.list.0.catagory.cname }}({{ g.list | length }})</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div>
+        <span>我的标签</span>
+        <ul>
+        {% for i in contents.articles_by_tag %}
+
+            <li>
+                <a href="/blog/tag={{ i.tname }}">{{ i.tname }}({{ i.count }})</a>
+            </li>
+
+        {% endfor %}
+        </ul>
+    </div>
+</div>

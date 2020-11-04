@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form action="/blog/register/" method="post">
+    {% csrf_token %}
+    <p>
+        <label>&emsp;用户名:</label>{{ register_form.username }}{{ register_form.errors.username.0 }}
+    </p>
+    <p>
+        <label>&emsp;&emsp;邮箱:</label>{{ register_form.email }}{{ register_form.errors.email.0 }}
+    </p>
+    <p>
+        <label>&emsp;&emsp;密码:</label>{{ register_form.password }}{{ register_form.errors.email.0 }}
+    </p>
+    <p>
+        <label>确认密码:</label>{{ register_form.password2 }}{{ register_form.errors.password2.0 }}
+    </p>
+    <input type="submit" value="注 册">
+</form>
+</body>
+</html>
