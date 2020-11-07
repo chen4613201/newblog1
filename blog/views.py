@@ -1,13 +1,10 @@
-from logging import Logger
-
-from django.contrib.auth import authenticate
-from django.core.handlers.asgi import logger
-from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render, redirect
-from django.template.defaulttags import regroup
+# codding=utf-8
+from django.core.paginator import Paginator
+from django.http import HttpResponse
+from django.shortcuts import render
 from django.views import View
+
 from .forms import *
-from django.contrib.auth.models import UserManager, User
 from .models import *
 
 
@@ -16,16 +13,33 @@ from .models import *
 
 class IndexView(View):
     def get(self, request):
-        # 对文章分页显示
+        # 获取分页参数Page
+        current_page = request.GET.get('page', 1)
+        # 获取当前分页参数的数据
         articles = ArticleModel.objects.all()
-        from django.core.paginator import Paginator
         paginator = Paginator(articles, 3)
-        current_page = request.GET.get('PageNum')
         page_obj = paginator.get_page(current_page)
-        print(request)
-        print('会执行到这儿来吗')
-        print(page_obj)
-        return render(request, 'index.html', {'page_obj': page_obj })
+        return render(request, 'index.html', {'page_obj': page_obj})
+
+
+class CatagoryView(View):
+    def get(self, request, catagory_id):
+        current_page = request.GET.get('page', 1)
+        current_catagory = int(catagory_id)
+        articles = ArticleModel.objects.filter(catagory__id=current_catagory)
+        paginator = Paginator(articles, 3)
+        page_obj = paginator.get_page(current_page)
+        return render(request, 'catagory.html', {'page_obj': page_obj, 'catagory_id': catagory_id})
+
+
+class TagView(View):
+    def get(self, request, tag_id):
+        current_page = request.GET.get('page', 1)
+        tag_id = int(tag_id)
+        articles = ArticleModel.objects.filter(tag__id=int(tag_id))
+        paginator = Paginator(articles, 3)
+        page_obj = paginator.get_page(current_page)
+        return render(request, 'tag.html', {'page_obj': page_obj, 'tag_id': tag_id})
 
 
 class LoginView(View):
@@ -53,3 +67,8 @@ class RegisterView(View):
             return HttpResponse('注册成功')
         return HttpResponse('注册失败')
 
+
+class ArticleDescView(View):
+    def get(self, request):
+        article = ArticleModel.objects.get(id=int(request.GET.get('id')))
+        return render(request, 'ArticleDesc.html', {'article': article})

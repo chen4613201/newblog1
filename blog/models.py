@@ -23,7 +23,7 @@ class TagModel(models.Model):
 
 
 class CatagoryModel(models.Model):
-    cname = models.CharField(max_length=30,default=u'未定义', unique=True, verbose_name='分类名称')
+    cname = models.CharField(max_length=30, default=u'未定义', unique=True, verbose_name='分类名称')
 
     class Meta:
         db_table = 't_catagory'

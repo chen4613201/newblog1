@@ -12,12 +12,12 @@
                     当前页 {{ page_obj.number }} 总页数 {{ page_obj.paginator.num_pages }}.
                 </span>
                 {% if page_obj.has_previous %}
-                    <a href="/blog/index/?page=1">首页</a>
-                    <a href="/blog/index/?page={{ page_obj.previous_page_number }}">上一页</a>
+                    <a href="/blog/catagory/{{ catagory_id }}/?page=1">首页</a>
+                    <a href="/blog/catagory/{{ catagory_id }}/?page={{ page_obj.previous_page_number }}">上一页</a>
                 {% endif %}
                 {% if page_obj.has_next %}
-                    <a href="/blog/index/?page={{ page_obj.next_page_number }}">下一页</a>
-                    <a href="/blog/index/?page={{ page_obj.paginator.num_pages }}">尾页</a>
+                    <a href="/blog/catagory/{{ catagory_id }}/?page={{ page_obj.next_page_number }}">下一页</a>
+                    <a href="/blog/catagory/{{ catagory_id }}/?page={{ page_obj.paginator.num_pages }}">尾页</a>
                 {% endif %}
             </span>
         </div>
@@ -37,7 +37,7 @@
         <ul>
             {% regroup contents.articles by catagory.id as group_articles %}
             {% for g in group_articles %}
-                <li><a href="/blog/catagory/{{ g.list.0.catagory.id }}/">{{ g.list.0.catagory.cname }}({{ g.list | length }})</a></li>
+                 <li><a href="/blog/catagory/{{ g.list.0.catagory.id }}/">{{ g.list.0.catagory.cname }}({{ g.list | length }})</a></li>
             {% endfor %}
         </ul>
     </div>
