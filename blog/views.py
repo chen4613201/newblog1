@@ -9,7 +9,8 @@ from .forms import *
 from .models import *
 from django.contrib import auth
 from django.contrib.auth import login, logout
-
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.hashers import make_password
 
 # Create your views here.
 
@@ -47,9 +48,7 @@ class TagView(View):
 
 class LoginView(View):
     def get(self, request):
-        from django.contrib.auth import forms
-        login_form = forms.AuthenticationForm(request.POST)
-        print(type(login_form))
+        login_form = LoginForm()
         return render(request, 'login.html', {'login_form': login_form})
 
     def post(self, request):
@@ -69,19 +68,27 @@ class LoginView(View):
 
 class RegisterView(View):
     def get(self, request):
-        from django.contrib.auth.forms import UserCreationForm
-        register_form = UserCreationForm
+
+        register_form = UserCreationForm()
         return render(request, 'register.html', {'register_form': register_form})
 
     def post(self, request):
-        register_form = RegisterForm(request.POST)
+        register_form = UserCreationForm(request.POST)
+        print(register_form.is_valid())
         if register_form.is_valid():
             data = register_form.cleaned_data
-            user = User(username=data['username'], password=data['password'], email=data['email'])
-            user.password = register_form.clean_password2()
-            user.save()
-            return HttpResponse('注册成功')
-        return HttpResponse('注册失败')
+            username = data['username']
+            password = register_form.clean_password2()
+            print(username,password)
+            try:
+                user = User.objects.create(username=username, password=make_password(password))
+            except Exception as e:
+                print(e)
+            print(user)
+            if user is not None:
+                return HttpResponse('注册成功')
+        else:
+            return HttpResponse('用户名或密码不符合安全规则')
 
 
 class ArticleDescView(View):
