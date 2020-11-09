@@ -2,7 +2,7 @@
 from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import View
 
 from .forms import *
@@ -64,6 +64,12 @@ class LoginView(View):
                 return HttpResponse('用户名或密码错误,请重新输入')
         else:
             return HttpResponse('登录错误')
+
+
+class LogOutView(View):
+    def get(self, request):
+        logout(request)
+        return redirect('/blog/index/')
 
 
 class RegisterView(View):
