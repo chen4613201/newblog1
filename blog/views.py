@@ -1,4 +1,5 @@
 # codding=utf-8
+from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.shortcuts import render
@@ -6,6 +7,8 @@ from django.views import View
 
 from .forms import *
 from .models import *
+from django.contrib import auth
+from django.contrib.auth import login, logout
 
 
 # Create your views here.
@@ -44,17 +47,30 @@ class TagView(View):
 
 class LoginView(View):
     def get(self, request):
-        login_form = LoginForm()
+        from django.contrib.auth import forms
+        login_form = forms.AuthenticationForm(request.POST)
+        print(type(login_form))
         return render(request, 'login.html', {'login_form': login_form})
 
     def post(self, request):
-        data = request.Form
-        return render(request, 'login.html')
+        login_form = LoginForm(request.POST)
+        if login_form.is_valid():
+            data = login_form.cleaned_data
+            user = auth.authenticate(username=data['login_user'], password=data['login_pass'])
+
+            if user is not None:
+                login(request, user)
+                return HttpResponse('登录成功')
+            else:
+                return HttpResponse('用户名或密码错误,请重新输入')
+        else:
+            return HttpResponse('登录错误')
 
 
 class RegisterView(View):
     def get(self, request):
-        register_form = RegisterForm()
+        from django.contrib.auth.forms import UserCreationForm
+        register_form = UserCreationForm
         return render(request, 'register.html', {'register_form': register_form})
 
     def post(self, request):
