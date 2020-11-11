@@ -1,5 +1,5 @@
 from .models import *
-
+from django.db.models import Count
 
 def content_data(request):
     contents = {}

@@ -1,5 +1,17 @@
 from django.db import models
-from django.db.models import Count
+from django.contrib.auth.models import Group
+
+
+class GroupModel(Group):
+    is_cust_group = models.BooleanField()
+
+    class Meta:
+        db_table = 't_group'
+        verbose_name = '分组'
+        verbose_name_plural = '分组'
+
+    def __unicode__(self):
+        return self.name
 
 
 class MenuModel(models.Model):
