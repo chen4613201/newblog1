@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-md">
   <!-- Brand -->
-  <a class="navbar-brand" href="#">个人博客</a>
+  <a class="navbar-brand" href="/blog/index">个人博客</a>
 
   <!-- Toggler/collapsibe Button -->
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
@@ -17,7 +17,7 @@
         {% endfor %}
     </ul>
   </div>
-    <ul class="nav navbar-nav navbar-right">
+    <!--ul class="nav navbar-nav navbar-right">
         {% if request.user.is_authenticated %}
                 <li>{{ request.user.username }}</li>
                 <li><a href="/logout/">退出</a> </li>
@@ -25,5 +25,5 @@
               <li><a href="/register/"><span class="glyphicon glyphicon-user"></span> 注册</a></li>
               <li><a href="/login/"><span class="glyphicon glyphicon-log-in"></span> 登录</a></li>
         {% endif %}
-    </ul>
+    </ul-->
 </nav>

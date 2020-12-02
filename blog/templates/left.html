@@ -1,0 +1,17 @@
+<div class="col-8">
+
+{% for contact in page_obj %}
+    <div class="borderColor">
+        <h5 style="margin-left: 4px;">
+            <strong style="size: 24px;color: red">|</strong>
+            <a href="/blog/ArticleDesc/?id={{ contact.id }}">{{ contact.title|upper }}</a>
+        </h5>
+        <h6 style="margin-left: 4px;">{{ contact.desc }}</h6>
+        <ul class="list-group list-group-horizontal">
+            {% for i in contact.tag.all %}
+            <li style="display: inline-block;margin-left: 4px;color: #5e5e5e">{{ i.tname }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endfor %}
+</div>

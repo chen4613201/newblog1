@@ -1,0 +1,29 @@
+<script>
+(function() {
+    var template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="UTF-8"><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>sheet</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml></head><body>{tableData}</body></html>'
+    var Excel_URL = 'data:application/vnd.ms-excel;base64,'
+    var Excel = {
+        ToExcel: function (data) {
+            var isIe = window.navigator.userAgent.toLocaleUpperCase().indexOf('trident')
+            if (isIe !== -1) {
+                this._IEExport(data)
+            } else {
+                this._otherExport(data)
+            }
+        },
+        _otherExport: function (data) {
+            var content = ''
+            if (typeof data === 'string') {
+                // 传入id，获取table的内容
+                var ele = document.querySelector(data)
+                content = template.replace('{tableData}', ele.outerHTML)
+            } // else可以做更多操作
+            var aEle = document.createElement('a')
+            aEle.href = Excel_URL + window.btoa(unescape(encodeURIComponent(content)))
+            aEle.download = '测试.xls'
+            aEle.click()
+        }
+    }
+    window.Excel = Excel
+})()
+</script>

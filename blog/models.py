@@ -54,6 +54,11 @@ class ArticleModel(models.Model):
     tag = models.ManyToManyField(TagModel, verbose_name='标签')
     catagory = models.ForeignKey(CatagoryModel, on_delete=models.CASCADE, verbose_name='分类')
 
+    def get_markdown_content(self):
+        from markdown import markdown
+        from django.utils.html import mark_safe
+        return mark_safe(markdown(self.content))
+
     class Meta:
         db_table = 't_article'
         verbose_name_plural = '文章'

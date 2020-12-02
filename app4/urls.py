@@ -24,4 +24,5 @@ urlpatterns = [
     path('login/', LoginView.as_view()),
     path('logout/', LogOutView.as_view()),
     path('register/', RegisterView.as_view()),
+    path('OnlineTables/', include('OnlineTables.urls', namespace='OnlineTables'))
 ]

@@ -11,7 +11,7 @@ from django.contrib import auth
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.hashers import make_password
-
+from markdown import Markdown
 # Create your views here.
 
 
@@ -20,7 +20,7 @@ class IndexView(View):
         # 获取分页参数Page
         current_page = request.GET.get('page', 1)
         # 获取当前分页参数的数据
-        articles = ArticleModel.objects.all()
+        articles = ArticleModel.objects.all().order_by('-id')
         paginator = Paginator(articles, 3)
         page_obj = paginator.get_page(current_page)
         return render(request, 'index.html', {'page_obj': page_obj})
